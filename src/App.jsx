@@ -10,7 +10,7 @@ export const App = () => {
 
   useEffect(() => {
     api
-      .get("/user")
+      .get("/chuck")
       .then((response) => {
         setData(response.data);
       })
@@ -23,14 +23,9 @@ export const App = () => {
       <button className="text-white" onClick={() => setCount(count + 1)}>
         API call {count}
       </button>
-
-      <ul>
-        {data.map((item) => (
-          <li key={item.id}>
-            {item.id} {item.name}
-          </li>
-        ))}
-      </ul>
+      <h2 className="scroll-m-20 pb-6 text-3xl font-semibold tracking-tight mt-2">
+        {data.joke}
+      </h2>
     </>
   );
 };
