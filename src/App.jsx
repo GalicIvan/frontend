@@ -21,7 +21,7 @@ export const App = () => {
   return (
     <>
       <img src={data.icon} alt="Chuck Picture" />
-      <button className="text-white" onClick={() => setCount(count + 1)}>
+      <button className="text-blue-500" onClick={() => setCount(count + 1)}>
         API call {count}
       </button>
       <h2 className="scroll-m-20 pb-6 text-3xl font-semibold tracking-tight mt-2">
