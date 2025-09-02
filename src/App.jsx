@@ -20,6 +20,7 @@ export const App = () => {
 
   return (
     <>
+      <img src={data.icon} alt="Chuck Picture" />
       <button className="text-white" onClick={() => setCount(count + 1)}>
         API call {count}
       </button>
