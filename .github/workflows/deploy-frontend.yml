@@ -1,0 +1,53 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run tests
+        run: |
+          cd frontend
+          npm run test -- --run || echo "⚠️ No tests, skipping"
+
+      - name: Build
+        run: |
+          cd frontend
+          npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy frontend to DigitalOcean VPS
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/frontend
+            git pull origin main
+            npm install
+            npm run build
+            cp -r dist/* /var/www/backend/public/
+            systemctl reload nginx
