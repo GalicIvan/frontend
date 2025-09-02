@@ -43,7 +43,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/frontend
-            git pull origin main
+            git pull origin master
             npm install
             npm run build
             cp -r dist/* /var/www/backend/public/
